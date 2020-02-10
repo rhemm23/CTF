@@ -10,12 +10,8 @@ public class ScreenView extends GLSurfaceView {
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
-    switch(event.getAction()) {
-      case MotionEvent.ACTION_DOWN:
-        this.renderer.jump();
-        break;
-    }
-    return super.onTouchEvent(event);
+    this.renderer.processTouchEvent(event);
+    return true;
   }
 
   public ScreenView(Context context){

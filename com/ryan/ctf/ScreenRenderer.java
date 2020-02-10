@@ -3,6 +3,7 @@ package com.ryan.ctf;
 import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
+import android.view.MotionEvent;
 
 import com.ryan.ctf.blocks.Block;
 import com.ryan.ctf.blocks.Dirt;
@@ -21,6 +22,8 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
   public static final float SECONDS_PER_TICK = 1f / TICKS;
 
   private TextureDrawer _textureDrawer;
+
+  private Joysticks _joystick;
 
   private float _unprocessedTime;
   private long _previousTime;
@@ -43,11 +46,15 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
     Programs.load(context);
   }
 
-  public void jump() {
-    this._player.jump();
+  public void processTouchEvent(MotionEvent event) {
+    if(!this._joystick.processTouchEvent(event)) {
+      this._player.jump();
+    }
   }
 
   public void onSurfaceCreated(GL10 unused, EGLConfig config) {
+    GLES30.glEnable(GLES30.GL_BLEND);
+    GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
     GLES30.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     load(this._context);
 
@@ -107,9 +114,11 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
     }
 
     this._textureDrawer.draw(_player.getX(), _player.getY(), Textures.getSprite(), vpMatrix);
+    this._joystick.draw();
   }
 
   public void onSurfaceChanged(GL10 unused, int width, int height) {
     this._camera.setViewDimensions(width, height);
+    this._joystick = new Joysticks(width, height, this._player);
   }
 }

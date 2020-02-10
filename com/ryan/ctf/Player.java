@@ -12,7 +12,7 @@ public class Player {
   private float _y;
 
   public Player() {
-    this._velocityX = 0.015625f;
+    this._velocityX = 0f;
     this._velocityY = 0f;
     this._x = 0f;
     this._y = 0f;

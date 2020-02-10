@@ -35,6 +35,10 @@ public class Camera {
     updateViewport();
   }
 
+  public float getZoom() {
+    return this._zoom;
+  }
+
   private void updateViewport() {
     // Update bounds
     this._minX = this._ratio * this._zoom;
@@ -56,6 +60,14 @@ public class Camera {
   public void setTargetLocation(float x, float y) {
     this._cameraX = Math.min(Math.max(x, this._minX), this._maxX);
     this._cameraY = Math.min(Math.max(y, this._minY), this._maxY);
+
+    // View
+    Matrix.setLookAtM(this._viewMatrix, 0, this._cameraX, this._cameraY, 3.0f,
+        this._cameraX, this._cameraY, 0.0f, 0.0f, 1.0f, 0.0f);
+
+    // Projection
+    Matrix.multiplyMM(this._viewProjectionMatrix, 0, this._projectionMatrix,
+        0, this._viewMatrix, 0);
   }
 
   public int[] getViewBounds() {
@@ -67,14 +79,10 @@ public class Camera {
   }
 
   public float[] getViewProjectionMatrix() {
-    // Look at
-    Matrix.setLookAtM(this._viewMatrix, 0, this._cameraX, this._cameraY, 3.0f,
-        this._cameraX, this._cameraY, 0.0f, 0.0f, 1.0f, 0.0f);
-
-    // Projection
-    Matrix.multiplyMM(this._viewProjectionMatrix, 0, this._projectionMatrix,
-        0, this._viewMatrix, 0);
     return this._viewProjectionMatrix;
   }
 
+  public float[] getViewMatrix() {
+    return this._viewMatrix;
+  }
 }

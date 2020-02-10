@@ -28,8 +28,8 @@ public class TexturedVerticesProgram extends Program {
     // Load shaders
     super.buildProgramFromAssets(
         context,
-        "VertexShader.txt",
-        "FragmentShader.txt"
+        "shaders/TextureVertexShader.txt",
+        "shaders/TextureFragmentShader.txt"
     );
 
     // Load handles
