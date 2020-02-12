@@ -1,84 +1,124 @@
 package com.ryan.ctf;
 
-import android.opengl.GLES30;
 import android.opengl.Matrix;
 
+/*
+ * Camera that looks at the z = 0 plane
+ */
 public class Camera {
 
-  private static final float DEFAULT_ZOOM = 3.0f;
+  private static final float DEFAULT_CAMERA_ZOOM = 1f;
+  private static final float CAMERA_Z_NEAR = 3f;
+  private static final float CAMERA_Z_FAR = 4f;
 
+  // View matrices
   private float[] _viewProjectionMatrix;
   private float[] _projectionMatrix;
   private float[] _viewMatrix;
-  private int[] _viewBounds;
 
-  private float _cameraX;
-  private float _cameraY;
+  // Dimensions of viewport
+  private float _height;
+  private float _width;
 
-  private float _maxX;
-  private float _minX;
-  private float _maxY;
-  private float _minY;
-  private float _zoom;
+  // Ratio of width/height
   private float _ratio;
+  private float _zoom;
+
+  // Camera position
+  private float _x;
+  private float _y;
 
   public Camera() {
     this._viewProjectionMatrix = new float[16];
     this._projectionMatrix = new float[16];
     this._viewMatrix = new float[16];
-    this._viewBounds = new int[4];
-    this._zoom = DEFAULT_ZOOM;
+    this._zoom = DEFAULT_CAMERA_ZOOM;
   }
 
-  public void setZoom(float zoom) {
+  public Camera(int width, int height) {
+    // Variable defaults
+    this();
+
+    // Set initial viewport
+    updateViewport(width, height);
+  }
+
+  public Camera(float x, float y, int width, int height) {
+    // Variable defaults
+    this();
+
+    // Initial viewport / position
+    updateViewport(width, height);
+    updateCameraPosition(x, y);
+  }
+
+  private void updateProjectionMatrix(float ratio, float zoom) {
+    // Update normalized variables
+    this._ratio = ratio;
     this._zoom = zoom;
-    updateViewport();
+
+    // Calc sizes
+    float xSize = this._ratio * this._zoom;
+    float ySize = this._zoom;
+
+    // Calc the new projection matrix
+    Matrix.frustumM(this._projectionMatrix, 0, -xSize,
+        xSize, -ySize, ySize, CAMERA_Z_NEAR, CAMERA_Z_FAR);
   }
 
-  public float getZoom() {
-    return this._zoom;
+  /*
+   * Performs calculations for new viewport
+   */
+  private void updateViewport(int width, int height) {
+    // Update viewport dimensions
+    this._height = height;
+    this._width = width;
+
+    // Update projection
+    updateProjectionMatrix((float)width / height, this._zoom);
   }
 
-  private void updateViewport() {
-    // Update bounds
-    this._minX = this._ratio * this._zoom;
-    this._maxX = World.WORLD_SIZE - (this._ratio * this._zoom);
-    this._minY = this._zoom;
-    this._maxY = World.WORLD_SIZE - this._zoom;
+  /*
+   * Performs calculations for new camera position
+   */
+  private void updateCameraPosition(float x, float y) {
+    // Position updates
+    this._x = x;
+    this._y = y;
 
-    // Create projection matrix
-    Matrix.frustumM(_projectionMatrix, 0, -this._ratio * this._zoom,
-        this._ratio * this._zoom, -this._zoom, this._zoom, 3, 4);
-  }
+    // Update view matrix
+    Matrix.setLookAtM(this._viewMatrix, 0, this._x, this._y, CAMERA_Z_NEAR,
+        this._x, this._y, 0f, 0f, 1f, 0f);
 
-  public void setViewDimensions(int width, int height) {
-    GLES30.glViewport(0, 0, width, height);
-    this._ratio = (float)width / height;
-    updateViewport();
-  }
-
-  public void setTargetLocation(float x, float y) {
-    // Assure camera doesn't travel outside of the map
-    this._cameraX = Math.min(Math.max(x, this._minX), this._maxX);
-    this._cameraY = Math.min(Math.max(y, this._minY), this._maxY);
-
-    // Look at specified location
-    Matrix.setLookAtM(this._viewMatrix, 0, this._cameraX, this._cameraY, 3.0f,
-        this._cameraX, this._cameraY, 0.0f, 0.0f, 1.0f, 0.0f);
-
-    // Project to specified location
+    // Update view projection matrix
     Matrix.multiplyMM(this._viewProjectionMatrix, 0, this._projectionMatrix,
         0, this._viewMatrix, 0);
   }
 
-  public int[] getViewBounds() {
-    this._viewBounds[0] = (int)Math.max(0, Math.floor(this._cameraX - _ratio * _zoom));
-    this._viewBounds[1] = (int)Math.min(World.WORLD_SIZE - 1, Math.ceil(this._cameraX + _ratio * _zoom));
-    this._viewBounds[2] = (int)Math.max(0, Math.floor(this._cameraY - _zoom));
-    this._viewBounds[3] = (int)Math.min(World.WORLD_SIZE - 1, Math.ceil(this._cameraY + _zoom));
-    return this._viewBounds;
+  /*
+   * Sets the position of the camera
+   */
+  public void setPosition(float x, float y) {
+    updateCameraPosition(x, y);
   }
 
+  /*
+   * Sets the dimensions of the viewport
+   */
+  public void setViewport(int width, int height) {
+    updateViewport(width, height);
+  }
+
+  /*
+   * Sets the camera's zoom
+   */
+  public void setZoom(float zoom) {
+    updateProjectionMatrix(this._ratio, zoom);
+  }
+
+  /*
+   * Gets the camera's view projection matrix
+   */
   public float[] getViewProjectionMatrix() {
     return this._viewProjectionMatrix;
   }

@@ -83,4 +83,12 @@ public class Joystick {
     this._outlineDrawer.setPosition(x, y);
     this._focusDrawer.setPosition(x, y);
   }
+
+  /*
+   * Draws the outline and focus pad to the screen
+   */
+  public void draw(float[] vpMatrix) {
+    this._outlineDrawer.draw(vpMatrix);
+    this._focusDrawer.draw(vpMatrix);
+  }
 }
