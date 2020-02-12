@@ -2,11 +2,10 @@ package com.ryan.ctf;
 
 public class Player {
 
-  // Two pixel steps per tick
+  // In terms of pixel steps
   private static final int RUN_SPEED = 2;
-
-  // One pixel step per tick
   private static final int WALK_SPEED = 1;
+  private static final int JUMP_VELOCITY = 15;
 
   // Change in one axis (one pixel)
   private static final float PIXEL_STEP = 0.03125f;
@@ -14,11 +13,17 @@ public class Player {
   private boolean _isXSpeedPositive;
   private boolean _isYSpeedPositive;
 
+  private boolean _jump;
+
   private int _speedX;
   private int _speedY;
 
   private float _x;
   private float _y;
+
+  public void jump() {
+    this._jump = true;
+  }
 
   public void update(World world) {
     int xSign = this._isXSpeedPositive ? 1 : -1;
@@ -113,6 +118,31 @@ public class Player {
         }
       }
     }
+
+    // Apply gravity
+    if(!standingOnGround(world)) {
+      if(this._speedY > 0) {
+        if(this._isYSpeedPositive) {
+          this._speedY--;
+        } else {
+          this._speedY++;
+        }
+      } else {
+        this._isYSpeedPositive = false;
+        this._speedY++;
+      }
+    } else if(this._jump) {
+      this._speedY = JUMP_VELOCITY;
+      this._isYSpeedPositive = true;
+    }
+    this._jump = false;
+  }
+
+  private boolean standingOnGround(World world) {
+    int currentX = (int)Math.floor(this._x);
+    return this._y % 1 == 0
+        && ((world.getBlock(currentX, (int)this._y - 1) != null)
+        || (this._x % 1 != 0 && (world.getBlock(currentX + 1, (int)this._y - 1) != null)));
   }
 
   private boolean horizontalCollision(float x, float y, int xSign, World world) {

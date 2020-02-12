@@ -1,6 +1,7 @@
 package com.ryan.ctf;
 
 import com.ryan.ctf.blocks.Block;
+import com.ryan.ctf.blocks.WorldBoundary;
 
 /*
  * The reality of the player object
@@ -10,7 +11,7 @@ public class World {
   private static final int DEFAULT_WORLD_WIDTH = 256;
   private static final int DEFAULT_WORLD_HEIGHT = 256;
 
-  private static final float DEFAULT_WORLD_GRAVITY = 0.0042f;
+  private static final Block WORLD_BOUNDARY = new WorldBoundary();
 
   private Block[][] _blocks;
 
@@ -26,7 +27,6 @@ public class World {
 
   public World(int width, int height) {
     this._blocks = new Block[height][width];
-    this._gravity = DEFAULT_WORLD_GRAVITY;
     this._height = height;
     this._width = width;
   }
@@ -35,6 +35,9 @@ public class World {
    * Gets the block at the specified position
    */
   public Block getBlock(int x, int y) {
+    if(x < 0 || y < 0 || x >= this._width || y >= this._height) {
+      return WORLD_BOUNDARY;
+    }
     return this._blocks[y][x];
   }
 
@@ -51,13 +54,5 @@ public class World {
 
   public int getWidth() {
     return this._width;
-  }
-
-  public void setGravity(float gravity) {
-    this._gravity = gravity;
-  }
-
-  public float getGravity() {
-    return this._gravity;
   }
 }

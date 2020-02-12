@@ -42,6 +42,10 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
     Programs.load(context);
   }
 
+  public void jump() {
+    this._player.jump();
+  }
+
   public void onSurfaceCreated(GL10 unused, EGLConfig config) {
     GLES30.glEnable(GLES30.GL_BLEND);
     GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
@@ -62,8 +66,8 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
 
     this._world.setBlock(7, 3, new Rock(7, 3));
 
-    this._player.setY(3);
-    this._player.setXVelocity(2);
+    this._player.setY(5);
+    //this._player.setXVelocity(2);
     _renderBounds = new Rectanglei(0, 0, 10, 10);
     this._worldDrawer = new WorldDrawer(_world, _renderBounds);
     this._camera.setPosition(_player.getX(), _player.getY());
