@@ -2,6 +2,9 @@ package com.ryan.ctf.graphics;
 
 import android.content.Context;
 
+/*
+ * A collection of all textures used
+ */
 public class Textures {
 
   private static Texture wood;
@@ -9,6 +12,9 @@ public class Textures {
   private static Texture dirt;
   private static Texture sprite;
 
+  /*
+   * Loads all textures
+   */
   public static void load(Context context) {
     wood = Texture.loadFromAsset(context, "textures/wood32.png");
     rock = Texture.loadFromAsset(context, "textures/rock32.png");

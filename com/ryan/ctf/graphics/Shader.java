@@ -8,6 +8,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/*
+ * A graphics shader program
+ */
 public class Shader {
 
   private static final String TAG = Shader.class.getName();
@@ -15,10 +18,16 @@ public class Shader {
 
   private Shader() { }
 
+  /*
+   * Gets the OpenGL shader ID
+   */
   public int getId() {
     return this._shader;
   }
 
+  /*
+   * Loads the shader object from a file asset
+   */
   public static Shader loadFromAsset(Context context, String file, int type) {
     Shader shader = new Shader();
     BufferedReader reader = null;

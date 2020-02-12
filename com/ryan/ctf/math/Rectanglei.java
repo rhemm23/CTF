@@ -1,5 +1,8 @@
 package com.ryan.ctf.math;
 
+/*
+ * A two dimensional rectangle using integer coordinates
+ */
 public class Rectanglei {
 
   private int _x1;

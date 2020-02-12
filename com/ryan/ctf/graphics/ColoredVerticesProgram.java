@@ -5,6 +5,9 @@ import android.opengl.GLES30;
 
 import java.nio.FloatBuffer;
 
+/*
+ * A shader program that draws vertices using a single color
+ */
 public class ColoredVerticesProgram extends Program {
 
   private static ColoredVerticesProgram instance;
@@ -39,21 +42,33 @@ public class ColoredVerticesProgram extends Program {
         this._program, "color");
   }
 
+  /*
+   * Set the shape's vertices
+   */
   public void setPositionPointer(FloatBuffer pointer) {
     GLES30.glEnableVertexAttribArray(this._positionHandle);
     GLES30.glVertexAttribPointer(this._positionHandle, 3,
         GLES30.GL_FLOAT, false, 12, pointer);
   }
 
+  /*
+   * Set the view projection matrix
+   */
   public void setViewProjectionMatrix(float[] vpMatrix) {
     GLES30.glUniformMatrix4fv(this._viewProjectionMatrixHandle,
         1, false, vpMatrix, 0);
   }
 
+  /*
+   * Set the color
+   */
   public void setColor(float[] color) {
     GLES30.glUniform4fv(this._colorHandle, 1, color, 0);
   }
 
+  /*
+   * Disable the program attributes
+   */
   public void disableAttributes() {
     GLES30.glDisableVertexAttribArray(this._positionHandle);
   }

@@ -1,7 +1,7 @@
 package com.ryan.ctf.math;
 
 /*
- * Represents a vertex with x and y components
+ * A vertex with x and y components
  */
 public class Vertex2f {
 

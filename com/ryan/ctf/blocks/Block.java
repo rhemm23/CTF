@@ -2,6 +2,9 @@ package com.ryan.ctf.blocks;
 
 import com.ryan.ctf.graphics.Texture;
 
+/*
+ * A basic square component that makes up the game's world
+ */
 public abstract class Block {
 
   private final int _x;

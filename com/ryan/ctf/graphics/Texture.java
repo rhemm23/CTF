@@ -8,16 +8,25 @@ import android.opengl.GLUtils;
 
 import java.io.IOException;
 
+/*
+ * A game texture
+ */
 public class Texture {
 
   private int _texture;
 
   private Texture() { }
 
+  /*
+   * Gets the OpenGL texture ID
+   */
   public int getId() {
     return this._texture;
   }
 
+  /*
+   * Loads a texture from a file asset
+   */
   public static Texture loadFromAsset(Context context, String file) {
     Texture texture = new Texture();
     int[] textureHandle = new int[1];

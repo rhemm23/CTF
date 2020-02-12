@@ -3,6 +3,9 @@ package com.ryan.ctf.graphics;
 import android.content.Context;
 import android.opengl.GLES30;
 
+/*
+ * An OpenGL shader program
+ */
 public abstract class Program {
 
   protected int _program;
@@ -11,14 +14,24 @@ public abstract class Program {
     this._program = GLES30.glCreateProgram();
   }
 
+  /*
+   * Get the OpenGL program ID
+   */
   public int getId() {
     return this._program;
   }
 
+  /*
+   * Use the program
+   */
   public void use() {
     GLES30.glUseProgram(this._program);
   }
 
+  /*
+   * Load vertex and fragment shaders from file assets,
+   * and compile the shader program
+   */
   protected void buildProgramFromAssets(Context context,
                                      String vertexShaderPath,
                                      String fragmentShaderPath) {

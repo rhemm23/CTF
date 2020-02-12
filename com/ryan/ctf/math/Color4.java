@@ -1,7 +1,7 @@
 package com.ryan.ctf.math;
 
 /*
- * Represents a rgba color
+ * A rgba color
  */
 public class Color4 {
 
