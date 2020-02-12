@@ -57,6 +57,11 @@ public class Joysticks {
   }
 
   public boolean processTouchEvent(MotionEvent event) {
+    switch(event.getAction()) {
+      case MotionEvent.ACTION_MOVE:
+
+
+    }
     return false;
   }
 

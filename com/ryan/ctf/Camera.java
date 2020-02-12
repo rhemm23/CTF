@@ -58,14 +58,15 @@ public class Camera {
   }
 
   public void setTargetLocation(float x, float y) {
+    // Assure camera doesn't travel outside of the map
     this._cameraX = Math.min(Math.max(x, this._minX), this._maxX);
     this._cameraY = Math.min(Math.max(y, this._minY), this._maxY);
 
-    // View
+    // Look at specified location
     Matrix.setLookAtM(this._viewMatrix, 0, this._cameraX, this._cameraY, 3.0f,
         this._cameraX, this._cameraY, 0.0f, 0.0f, 1.0f, 0.0f);
 
-    // Projection
+    // Project to specified location
     Matrix.multiplyMM(this._viewProjectionMatrix, 0, this._projectionMatrix,
         0, this._viewMatrix, 0);
   }
@@ -80,9 +81,5 @@ public class Camera {
 
   public float[] getViewProjectionMatrix() {
     return this._viewProjectionMatrix;
-  }
-
-  public float[] getViewMatrix() {
-    return this._viewMatrix;
   }
 }
