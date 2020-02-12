@@ -4,19 +4,19 @@ import com.ryan.ctf.graphics.Texture;
 
 public abstract class Block {
 
-  private final float _x;
-  private final float _y;
+  private final int _x;
+  private final int _y;
 
-  public Block(float x, float y) {
+  public Block(int x, int y) {
     this._x = x;
     this._y = y;
   }
 
-  public float getX() {
+  public int getX() {
     return this._x;
   }
 
-  public float getY() {
+  public int getY() {
     return this._y;
   }
 

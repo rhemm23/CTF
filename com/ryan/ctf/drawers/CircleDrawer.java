@@ -1,7 +1,8 @@
-package com.ryan.ctf.graphics;
+package com.ryan.ctf.drawers;
 
 import android.opengl.GLES30;
 
+import com.ryan.ctf.graphics.ColoredVerticesProgram;
 import com.ryan.ctf.math.Color4;
 
 import java.nio.ByteBuffer;
@@ -11,8 +12,10 @@ import java.nio.FloatBuffer;
 /*
  * Draws a circle on the z = 0 plane
  */
-public class CircleDrawer {
+public class CircleDrawer implements IDrawable {
 
+  private static final int VERTEX_COUNT = 4;
+  private static final int COORDS_PER_VERTEX = 3;
   private static final int CIRCLE_VERTEX_COUNT = 66;
 
   private ColoredVerticesProgram _program;
@@ -26,7 +29,8 @@ public class CircleDrawer {
 
   public CircleDrawer() {
     // Build float buffer
-    ByteBuffer bb = ByteBuffer.allocateDirect(12 * CIRCLE_VERTEX_COUNT);
+    ByteBuffer bb = ByteBuffer.allocateDirect(VERTEX_COUNT *
+            COORDS_PER_VERTEX * CIRCLE_VERTEX_COUNT);
     bb.order(ByteOrder.nativeOrder());
     this._vertexBuffer = bb.asFloatBuffer();
 

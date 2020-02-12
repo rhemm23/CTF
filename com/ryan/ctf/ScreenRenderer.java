@@ -10,7 +10,7 @@ import com.ryan.ctf.blocks.Dirt;
 import com.ryan.ctf.blocks.Rock;
 import com.ryan.ctf.blocks.Wood;
 import com.ryan.ctf.graphics.Programs;
-import com.ryan.ctf.graphics.TextureDrawer;
+import com.ryan.ctf.drawers.TextureDrawer;
 import com.ryan.ctf.graphics.Textures;
 
 import javax.microedition.khronos.egl.EGLConfig;
