@@ -34,6 +34,19 @@ public class CircleDrawer {
     this._program = ColoredVerticesProgram.getInstance();
   }
 
+  public CircleDrawer(float x, float y, float radius, Color4 color) {
+    // Setup buffer and program
+    this();
+
+    // Set values
+    this._radius = radius;
+    this._x = x;
+    this._y = y;
+
+    // Calculate vertices
+    calculateVertices();
+  }
+
   /*
    * Sets the radius of the circle
    */
