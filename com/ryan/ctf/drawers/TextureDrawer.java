@@ -52,6 +52,13 @@ public class TextureDrawer implements IDrawable {
     ByteBuffer bb = ByteBuffer.allocateDirect(VERTEX_COUNT * COORDS_PER_VERTEX * FLOAT_SIZE);
     bb.order(ByteOrder.nativeOrder());
     this._positionBuffer = bb.asFloatBuffer();
+
+    // Build vertices
+    setPosition(x, y);
+  }
+
+  public void setPosition(float x, float y) {
+    this._positionBuffer.position(0);
     this._positionBuffer.put(new float[] {
         x, y, 0.0f,
         x, y + 1, 0.0f,
