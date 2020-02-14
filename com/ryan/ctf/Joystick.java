@@ -3,6 +3,7 @@ package com.ryan.ctf;
 import com.ryan.ctf.drawers.CircleDrawer;
 import com.ryan.ctf.core.IDrawable;
 import com.ryan.ctf.math.Color4;
+import com.ryan.ctf.math.Rectanglef;
 
 public class Joystick implements IDrawable {
 
@@ -88,8 +89,8 @@ public class Joystick implements IDrawable {
   /*
    * Draws the outline and focus pad to the screen
    */
-  public void draw(float[] viewProjectionMatrix) {
-    this._outlineDrawer.draw(viewProjectionMatrix);
-    this._focusDrawer.draw(viewProjectionMatrix);
+  public void draw(float[] viewProjectionMatrix, Rectanglef viewBounds) {
+    this._outlineDrawer.draw(viewProjectionMatrix, viewBounds);
+    this._focusDrawer.draw(viewProjectionMatrix, viewBounds);
   }
 }

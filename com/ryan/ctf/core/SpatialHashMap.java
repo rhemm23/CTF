@@ -1,5 +1,7 @@
 package com.ryan.ctf.core;
 
+import com.ryan.ctf.math.Rectanglef;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -28,6 +30,9 @@ public class SpatialHashMap {
     }
   }
 
+  /*
+   * Removes a game object from the spatial map
+   */
   public void removeGameObject(GameObject obj) {
     for(String cell : getObjectCells(obj)) {
       HashSet<GameObject> cellObjects = this._data.get(cell);
@@ -35,6 +40,15 @@ public class SpatialHashMap {
         cellObjects.remove(obj);
       }
     }
+  }
+
+  /*
+   * Updates the cells the game object occupies, useful
+   * if the position of the object is changed
+   */
+  public void updateGameObject(GameObject obj) {
+    this.removeGameObject(obj);
+    this.addGameObject(obj);
   }
 
   /*
@@ -49,6 +63,29 @@ public class SpatialHashMap {
       }
     }
     objects.remove(obj);
+    return objects;
+  }
+
+  /*
+   * Finds all game objects located within or nearby a rectangular bounds
+   */
+  public HashSet<GameObject> getGameObjectsWithinBounds(Rectanglef bounds) {
+    // Casting to int w/ overcompensating
+    int x1 = (int)Math.floor(bounds.X1 / this._cellSize);
+    int y1 = (int)Math.floor(bounds.Y1 / this._cellSize);
+    int x2 = (int)Math.ceil(bounds.X2 / this._cellSize);
+    int y2 = (int)Math.ceil(bounds.Y2 / this._cellSize);
+
+    // Find objects in cells
+    HashSet<GameObject> objects = new HashSet<>();
+    for(int x = x1; x < x2; x++) {
+      for(int y = y1; y < y2; y++) {
+        HashSet<GameObject> cellObjects = this._data.get(x + ":" + y);
+        if(cellObjects != null) {
+          objects.addAll(cellObjects);
+        }
+      }
+    }
     return objects;
   }
 
@@ -76,8 +113,6 @@ public class SpatialHashMap {
 
   @SuppressWarnings("DefaultLocale")
   private String getCell(int x, int y) {
-    return String.format("%d:%d",
-        x / this._cellSize,
-        y / this._cellSize);
+    return (x / this._cellSize) + ":" + (y / this._cellSize);
   }
 }

@@ -4,9 +4,12 @@ import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
+import com.ryan.ctf.core.Block;
+import com.ryan.ctf.core.BlockTypes;
+import com.ryan.ctf.core.Player;
+import com.ryan.ctf.core.World;
 import com.ryan.ctf.graphics.Programs;
 import com.ryan.ctf.graphics.Textures;
-import com.ryan.ctf.math.Rectanglei;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -16,16 +19,12 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
   public static final int TICKS = 64;
   public static final float SECONDS_PER_TICK = 1f / TICKS;
 
-  //private Rectanglei _renderBounds;
-  //private WorldDrawer _worldDrawer;
-  //private TextureDrawer _textureDrawer;
-
   private float _unprocessedTime;
   private long _previousTime;
   private Context _context;
   private Camera _camera;
-  //private Player _player;
-  //private World _world;
+  private Player _player;
+  private World _world;
 
   public ScreenRenderer(Context context) {
     this._unprocessedTime = 0f;
@@ -37,10 +36,6 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
     Programs.load(context);
   }
 
-  public void jump() {
-    //this._player.jump();
-  }
-
   public void onSurfaceCreated(GL10 unused, EGLConfig config) {
     GLES30.glEnable(GLES30.GL_BLEND);
     GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
@@ -49,30 +44,22 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
 
     // Setup objects
     this._camera = new Camera();
-    //this._player = new Player();
-    //this._world = new World();
+    this._player = new Player();
+    this._world = new World(32);
+    this._world.addGameObject(this._player);
 
-    // Build world
-    //for(int i = 0; i < this._world.getWidth(); i++) {
-      //this._world.setBlock(i, 0, new Rock(i, 0));
-      //this._world.setBlock(i, 1, new Dirt(i, 1));
-      //this._world.setBlock(i, 2, new Wood(i, 2));
-    //}
+    for(int i = 0; i < 20; i++) {
+      this._world.addGameObject(new Block(i * 32, 0, 32, BlockTypes.DIRT));
+      this._world.addGameObject(new Block(i * 32, 32, 32, BlockTypes.ROCK));
+      this._world.addGameObject(new Block(i * 32, 64, 32, BlockTypes.WOOD));
+    }
 
-    //this._world.setBlock(7, 3, new Rock(7, 3));
-
-    //this._player.setY(5);
-    //this._player.setXVelocity(2);
-    //_renderBounds = new Rectanglei(0, 0, 10, 10);
-    //this._worldDrawer = new WorldDrawer(_world, _renderBounds);
-    //this._camera.setPosition(_player.getX(), _player.getY());
-    //this._textureDrawer = new TextureDrawer(_player.getX(), _player.getY(), Textures.getSprite());
+    this._player.setY(256);
   }
 
   public void tick() {
-    //this._player.update(this._world);
-    //this._textureDrawer.setPosition(_player.getX(), _player.getY());
-    //this._camera.setPosition(_player.getX(), _player.getY());
+    this._world.update();
+    this._camera.setPosition(this._player.getX(), this._player.getY());
   }
 
   public void onDrawFrame(GL10 unused) {
@@ -85,21 +72,19 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
       this._previousTime = currentTime;
 
       // Handle tick
-      this._unprocessedTime += elapsed / 1000000000.0;
-      if(this._unprocessedTime > SECONDS_PER_TICK) {
+      this._unprocessedTime += elapsed / 1000000000f;
+      if(this._unprocessedTime >= SECONDS_PER_TICK) {
         this._unprocessedTime -= SECONDS_PER_TICK;
         tick();
       }
     }
 
     GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
-    float[] vpMatrix = this._camera.getViewProjectionMatrix();
-    //this._worldDrawer.draw(vpMatrix);
-    //this._textureDrawer.draw(vpMatrix);
+    this._world.draw(this._camera.getViewProjectionMatrix(), this._camera.getViewBounds());
   }
 
   public void onSurfaceChanged(GL10 unused, int width, int height) {
     this._camera.setViewport(width, height);
-    this._camera.setZoom(5);
+    this._camera.setZoom(64);
   }
 }

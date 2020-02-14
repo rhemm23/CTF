@@ -5,6 +5,7 @@ import android.opengl.GLES30;
 import com.ryan.ctf.core.IDrawable;
 import com.ryan.ctf.graphics.ColoredVerticesProgram;
 import com.ryan.ctf.math.Color4;
+import com.ryan.ctf.math.Rectanglef;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -107,7 +108,7 @@ public class CircleDrawer implements IDrawable {
   /*
    * Draws the circle to the screen
    */
-  public void draw(float[] vpMatrix) {
+  public void draw(float[] vpMatrix, Rectanglef viewBounds) {
     // Use colored vertices program
     this._program.use();
 

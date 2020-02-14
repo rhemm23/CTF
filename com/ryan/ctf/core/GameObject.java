@@ -4,6 +4,7 @@ import android.opengl.GLES30;
 
 import com.ryan.ctf.graphics.Texture;
 import com.ryan.ctf.graphics.TexturedVerticesProgram;
+import com.ryan.ctf.math.Rectanglef;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -116,7 +117,7 @@ public abstract class GameObject implements IDrawable {
   /*
    * Draw the object to the screen
    */
-  public void draw(float[] viewProjectionMatrix) {
+  public void draw(float[] viewProjectionMatrix, Rectanglef viewBounds) {
     this._shaderProgram.use();
     this._shaderProgram.setPositionPointer(this._positionBuffer);
     this._shaderProgram.setTextureCoordinatePointer(textureCoordinateBuffer);

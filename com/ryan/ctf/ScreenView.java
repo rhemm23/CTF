@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 public class ScreenView extends GLSurfaceView {
 
   private final ScreenRenderer renderer;
+/*
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
@@ -17,6 +18,7 @@ public class ScreenView extends GLSurfaceView {
     }
     return super.onTouchEvent(event);
   }
+*/
 
   public ScreenView(Context context){
     super(context);
