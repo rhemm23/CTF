@@ -31,6 +31,12 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
     this._context = context;
   }
 
+  private boolean playerJump;
+
+  public void jump() {
+    playerJump = true;
+  }
+
   private void load(Context context) {
     Textures.load(context);
     Programs.load(context);

@@ -23,7 +23,6 @@ public class World implements IDrawable {
    */
   public void update() {
     for(Entity entity : this._entities) {
-      // Prefer using float velocities over alternating ticks for gravity tbh
       int xStep = Math.round(entity.getXVelocity());
       int yStep = Math.round(entity.getYVelocity());
 
@@ -36,7 +35,7 @@ public class World implements IDrawable {
       }
 
       // Apply gravity if possible
-      if(tryMove(entity, 0, -1)) {
+      if(canMove(entity, 0, -1)) {
         entity.setYVelocity(entity.getYVelocity() + GRAVITY);
       }
     }
@@ -73,21 +72,35 @@ public class World implements IDrawable {
   }
 
   private boolean tryMove(GameObject obj, int dx, int dy) {
+    if(canMove(obj, dx, dy)) {
+      obj.setX(obj.getX() + dx);
+      obj.setY(obj.getY() + dy);
+      this._worldSpace.updateGameObject(obj);
+      return true;
+    }
+    return false;
+  }
+
+  private boolean canMove(GameObject obj, int dx, int dy) {
+    boolean success = true;
+
     // Update positions
     obj.setX(obj.getX() + dx);
     obj.setY(obj.getY() + dy);
 
-    // Test for collisions
+    // Check for collisions
     HashSet<GameObject> nearbyObjects = this._worldSpace.getNearbyGameObjects(obj);
     for(GameObject testObj : nearbyObjects) {
       if(obj.collidesWith(testObj)) {
-        obj.setX(obj.getX() - dx);
-        obj.setY(obj.getY() - dy);
-        return false;
+        success = false;
+        break;
       }
     }
-    this._worldSpace.updateGameObject(obj);
-    return true;
+
+    // Revert positions
+    obj.setX(obj.getX() - dx);
+    obj.setY(obj.getY() - dy);
+    return success;
   }
 
   /**
