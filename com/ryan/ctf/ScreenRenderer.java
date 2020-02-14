@@ -16,7 +16,7 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
   public static final int TICKS = 64;
   public static final float SECONDS_PER_TICK = 1f / TICKS;
 
-  private Rectanglei _renderBounds;
+  //private Rectanglei _renderBounds;
   //private WorldDrawer _worldDrawer;
   //private TextureDrawer _textureDrawer;
 
@@ -63,7 +63,7 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
 
     //this._player.setY(5);
     //this._player.setXVelocity(2);
-    _renderBounds = new Rectanglei(0, 0, 10, 10);
+    //_renderBounds = new Rectanglei(0, 0, 10, 10);
     //this._worldDrawer = new WorldDrawer(_world, _renderBounds);
     //this._camera.setPosition(_player.getX(), _player.getY());
     //this._textureDrawer = new TextureDrawer(_player.getX(), _player.getY(), Textures.getSprite());

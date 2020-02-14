@@ -56,7 +56,7 @@ public class SpatialHashMap {
    * Adds a game object to a specific cell
    */
   private void addGameObjectToCell(String cell, GameObject obj) {
-    if(!this._data.containsKey(obj)) {
+    if(!this._data.containsKey(cell)) {
       this._data.put(cell, new HashSet<GameObject>());
     }
     this._data.get(cell).add(obj);

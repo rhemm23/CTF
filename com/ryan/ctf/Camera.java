@@ -2,6 +2,8 @@ package com.ryan.ctf;
 
 import android.opengl.Matrix;
 
+import com.ryan.ctf.math.Rectanglef;
+
 /*
  * Camera that looks at the z = 0 plane
  */
@@ -16,9 +18,8 @@ public class Camera {
   private float[] _projectionMatrix;
   private float[] _viewMatrix;
 
-  // Dimensions of viewport
-  private float _height;
-  private float _width;
+  // What the camera sees
+  private Rectanglef _viewBounds;
 
   // Ratio of width/height
   private float _ratio;
@@ -31,27 +32,34 @@ public class Camera {
   public Camera() {
     this._viewProjectionMatrix = new float[16];
     this._projectionMatrix = new float[16];
+    this._viewBounds = new Rectanglef();
     this._viewMatrix = new float[16];
     this._zoom = DEFAULT_CAMERA_ZOOM;
   }
 
   public Camera(int width, int height) {
-    // Variable defaults
     this();
-
-    // Set initial viewport
-    updateViewport(width, height);
+    updateProjectionMatrix((float)width / height, this._zoom);
   }
 
   public Camera(float x, float y, int width, int height) {
-    // Variable defaults
-    this();
-
-    // Initial viewport / position
-    updateViewport(width, height);
+    this(width, height);
     updateCameraPosition(x, y);
   }
 
+  /*
+   * Updates the bounds of the camera's view
+   */
+  private void updateViewBounds() {
+    this._viewBounds.X1 = -this._ratio * this._zoom + this._x;
+    this._viewBounds.X2 = this._ratio * this._zoom + this._x;
+    this._viewBounds.Y1 = -this._zoom + this._y;
+    this._viewBounds.Y2 = this._zoom + this._y;
+  }
+
+  /*
+   * Update the projection matrix
+   */
   private void updateProjectionMatrix(float ratio, float zoom) {
     // Update normalized variables
     this._ratio = ratio;
@@ -64,18 +72,9 @@ public class Camera {
     // Calc the new projection matrix
     Matrix.frustumM(this._projectionMatrix, 0, -xSize,
         xSize, -ySize, ySize, CAMERA_Z_NEAR, CAMERA_Z_FAR);
-  }
 
-  /*
-   * Performs calculations for new viewport
-   */
-  private void updateViewport(int width, int height) {
-    // Update viewport dimensions
-    this._height = height;
-    this._width = width;
-
-    // Update projection
-    updateProjectionMatrix((float)width / height, this._zoom);
+    // Find new bounds
+    updateViewBounds();
   }
 
   /*
@@ -93,6 +92,13 @@ public class Camera {
     // Update view projection matrix
     Matrix.multiplyMM(this._viewProjectionMatrix, 0, this._projectionMatrix,
         0, this._viewMatrix, 0);
+
+    // Find new bounds
+    updateViewBounds();
+  }
+
+  public Rectanglef getViewBounds() {
+    return this._viewBounds;
   }
 
   /*
@@ -106,7 +112,7 @@ public class Camera {
    * Sets the dimensions of the viewport
    */
   public void setViewport(int width, int height) {
-    updateViewport(width, height);
+    updateProjectionMatrix((float)width / height, this._zoom);
   }
 
   /*
