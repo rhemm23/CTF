@@ -4,10 +4,6 @@ import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
-import com.ryan.ctf.blocks.Dirt;
-import com.ryan.ctf.blocks.Rock;
-import com.ryan.ctf.blocks.Wood;
-import com.ryan.ctf.drawers.WorldDrawer;
 import com.ryan.ctf.graphics.Programs;
 import com.ryan.ctf.graphics.Textures;
 import com.ryan.ctf.math.Rectanglei;
@@ -21,15 +17,15 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
   public static final float SECONDS_PER_TICK = 1f / TICKS;
 
   private Rectanglei _renderBounds;
-  private WorldDrawer _worldDrawer;
-  private TextureDrawer _textureDrawer;
+  //private WorldDrawer _worldDrawer;
+  //private TextureDrawer _textureDrawer;
 
   private float _unprocessedTime;
   private long _previousTime;
   private Context _context;
   private Camera _camera;
-  private Player _player;
-  private World _world;
+  //private Player _player;
+  //private World _world;
 
   public ScreenRenderer(Context context) {
     this._unprocessedTime = 0f;
@@ -42,7 +38,7 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
   }
 
   public void jump() {
-    this._player.jump();
+    //this._player.jump();
   }
 
   public void onSurfaceCreated(GL10 unused, EGLConfig config) {
@@ -53,30 +49,30 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
 
     // Setup objects
     this._camera = new Camera();
-    this._player = new Player();
-    this._world = new World();
+    //this._player = new Player();
+    //this._world = new World();
 
     // Build world
-    for(int i = 0; i < this._world.getWidth(); i++) {
-      this._world.setBlock(i, 0, new Rock(i, 0));
-      this._world.setBlock(i, 1, new Dirt(i, 1));
-      this._world.setBlock(i, 2, new Wood(i, 2));
-    }
+    //for(int i = 0; i < this._world.getWidth(); i++) {
+      //this._world.setBlock(i, 0, new Rock(i, 0));
+      //this._world.setBlock(i, 1, new Dirt(i, 1));
+      //this._world.setBlock(i, 2, new Wood(i, 2));
+    //}
 
-    this._world.setBlock(7, 3, new Rock(7, 3));
+    //this._world.setBlock(7, 3, new Rock(7, 3));
 
-    this._player.setY(5);
-    this._player.setXVelocity(2);
+    //this._player.setY(5);
+    //this._player.setXVelocity(2);
     _renderBounds = new Rectanglei(0, 0, 10, 10);
-    this._worldDrawer = new WorldDrawer(_world, _renderBounds);
-    this._camera.setPosition(_player.getX(), _player.getY());
-    this._textureDrawer = new TextureDrawer(_player.getX(), _player.getY(), Textures.getSprite());
+    //this._worldDrawer = new WorldDrawer(_world, _renderBounds);
+    //this._camera.setPosition(_player.getX(), _player.getY());
+    //this._textureDrawer = new TextureDrawer(_player.getX(), _player.getY(), Textures.getSprite());
   }
 
   public void tick() {
-    this._player.update(this._world);
-    this._textureDrawer.setPosition(_player.getX(), _player.getY());
-    this._camera.setPosition(_player.getX(), _player.getY());
+    //this._player.update(this._world);
+    //this._textureDrawer.setPosition(_player.getX(), _player.getY());
+    //this._camera.setPosition(_player.getX(), _player.getY());
   }
 
   public void onDrawFrame(GL10 unused) {
@@ -98,8 +94,8 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
 
     GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
     float[] vpMatrix = this._camera.getViewProjectionMatrix();
-    this._worldDrawer.draw(vpMatrix);
-    this._textureDrawer.draw(vpMatrix);
+    //this._worldDrawer.draw(vpMatrix);
+    //this._textureDrawer.draw(vpMatrix);
   }
 
   public void onSurfaceChanged(GL10 unused, int width, int height) {

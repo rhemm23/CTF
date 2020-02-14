@@ -1,3 +1,4 @@
+/*
 package com.ryan.ctf;
 
 public class Player {
@@ -190,3 +191,4 @@ public class Player {
     return this._y;
   }
 }
+*/

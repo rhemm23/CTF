@@ -1,11 +1,14 @@
+/*
 package com.ryan.ctf;
 
 import com.ryan.ctf.blocks.Block;
 import com.ryan.ctf.blocks.WorldBoundary;
 
+*/
 /*
  * The reality of the player object
- */
+ *//*
+
 public class World {
 
   private static final int DEFAULT_WORLD_WIDTH = 256;
@@ -30,9 +33,11 @@ public class World {
     this._width = width;
   }
 
-  /*
+  */
+/*
    * Gets the block at the specified position
-   */
+   *//*
+
   public Block getBlock(int x, int y) {
     if(x < 0 || y < 0 || x >= this._width || y >= this._height) {
       return WORLD_BOUNDARY;
@@ -40,9 +45,11 @@ public class World {
     return this._blocks[y][x];
   }
 
-  /*
+  */
+/*
    * Sets the block at the specified position
-   */
+   *//*
+
   public void setBlock(int x, int y, Block block) {
     this._blocks[y][x] = block;
   }
@@ -55,3 +62,4 @@ public class World {
     return this._width;
   }
 }
+*/

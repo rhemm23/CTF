@@ -11,6 +11,9 @@ import java.nio.FloatBuffer;
 
 public abstract class GameObject implements IDrawable {
 
+  protected static final int ORIGIN_X = 0;
+  protected static final int ORIGIN_Y = 0;
+
   private static final float[] textureCoordinates = {
       0f, 1f,
       0f, 0f,
@@ -36,17 +39,17 @@ public abstract class GameObject implements IDrawable {
   private TexturedVerticesProgram _shaderProgram;
   private FloatBuffer _positionBuffer;
 
-  private float _x;
-  private float _y;
+  private int _x;
+  private int _y;
 
-  private final float _height;
-  private final float _width;
+  private final int _height;
+  private final int _width;
 
-  public GameObject(float width, float height) {
-    this(0f, 0f, width, height);
+  public GameObject(int width, int height) {
+    this(ORIGIN_X, ORIGIN_Y, width, height);
   }
 
-  public GameObject(float x, float y, float width, float height) {
+  public GameObject(int x, int y, int width, int height) {
     this._shaderProgram = TexturedVerticesProgram.getInstance();
     this._height = height;
     this._width = width;
@@ -64,7 +67,7 @@ public abstract class GameObject implements IDrawable {
 
   protected abstract Texture getTexture();
 
-  public void setX(float x) {
+  public void setX(int x) {
     this._x = x;
 
     // Update 3d space
@@ -74,7 +77,7 @@ public abstract class GameObject implements IDrawable {
     this._positionBuffer.put(9, this._x + this._width);
   }
 
-  public void setY(float y) {
+  public void setY(int y) {
     this._y = y;
 
     // Update 3d space
@@ -84,19 +87,19 @@ public abstract class GameObject implements IDrawable {
     this._positionBuffer.put(10, this._y + this._height);
   }
 
-  public float getX() {
+  public int getX() {
     return this._x;
   }
 
-  public float getY() {
+  public int getY() {
     return this._y;
   }
 
-  public float getWidth() {
+  public int getWidth() {
     return this._width;
   }
 
-  public float getHeight() {
+  public int getHeight() {
     return this._height;
   }
 

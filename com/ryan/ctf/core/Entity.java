@@ -2,22 +2,22 @@ package com.ryan.ctf.core;
 
 public abstract class Entity extends GameObject {
 
-  private float _xVelocity;
-  private float _yVelocity;
+  private int _xVelocity;
+  private int _yVelocity;
 
-  public Entity(float width, float height) {
+  public Entity(int width, int height) {
     super(width, height);
   }
 
-  public Entity(float x, float y, float width, float height) {
+  public Entity(int x, int y, int width, int height) {
     super(x, y, width, height);
   }
 
-  public void setXVelocity(float xVelocity) {
+  public void setXVelocity(int xVelocity) {
     this._xVelocity = xVelocity;
   }
 
-  public void setYVelocity(float yVelocity) {
+  public void setYVelocity(int yVelocity) {
     this._yVelocity = yVelocity;
   }
 

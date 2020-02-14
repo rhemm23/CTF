@@ -5,12 +5,14 @@ import com.ryan.ctf.graphics.Textures;
 
 public class Player extends Entity {
 
+  private static final int PLAYER_SIZE = 32;
+
   public Player() {
-    this(1f, 1f);
+    this(ORIGIN_X, ORIGIN_Y);
   }
 
-  public Player(float x, float y) {
-    super(x, y, 1f, 1f);
+  public Player(int x, int y) {
+    super(x, y, PLAYER_SIZE, PLAYER_SIZE);
   }
 
   public Texture getTexture() {
