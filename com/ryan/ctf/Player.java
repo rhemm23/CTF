@@ -5,7 +5,7 @@ public class Player {
   // In terms of pixel steps
   private static final int RUN_SPEED = 2;
   private static final int WALK_SPEED = 1;
-  private static final int JUMP_VELOCITY = 15;
+  private static final int JUMP_VELOCITY = 12;
 
   // Change in one axis (one pixel)
   private static final float PIXEL_STEP = 0.03125f;
@@ -21,6 +21,8 @@ public class Player {
   private float _x;
   private float _y;
 
+  private int _tick;
+
   public void jump() {
     this._jump = true;
   }
@@ -30,7 +32,7 @@ public class Player {
     int ySign = this._isYSpeedPositive ? 1 : -1;
 
     if(this._speedX > 0) {
-      if(this._speedY > 0) {
+        if(this._speedY > 0) {
         if(this._speedY >= this._speedX) {
           int factor = this._speedY / this._speedX;
 
@@ -42,7 +44,7 @@ public class Player {
             float ny = this._y;
             float nx = this._x;
 
-            if(factor % i == 0 && !zeroX) {
+            if(i % factor == 0 && !zeroX) {
               nx += xSign * PIXEL_STEP;
             }
             if(!zeroY) {
@@ -77,7 +79,7 @@ public class Player {
             if(!zeroX) {
               nx += xSign * PIXEL_STEP;
             }
-            if(factor % i == 0 && !zeroY) {
+            if(i % factor == 0 && !zeroY) {
               ny += ySign * PIXEL_STEP;
             }
 
@@ -121,21 +123,26 @@ public class Player {
 
     // Apply gravity
     if(!standingOnGround(world)) {
-      if(this._speedY > 0) {
-        if(this._isYSpeedPositive) {
-          this._speedY--;
+      if(_tick % 2 == 0) {
+        if (this._speedY > 0) {
+          if (this._isYSpeedPositive) {
+            this._speedY -= 2;
+          } else {
+            this._speedY += 2;
+          }
         } else {
-          this._speedY++;
+          this._isYSpeedPositive = false;
+          this._speedY = 2;
         }
-      } else {
-        this._isYSpeedPositive = false;
-        this._speedY++;
       }
     } else if(this._jump) {
       this._speedY = JUMP_VELOCITY;
       this._isYSpeedPositive = true;
     }
     this._jump = false;
+    if(++this._tick > 63) {
+      this._tick = 0;
+    }
   }
 
   private boolean standingOnGround(World world) {

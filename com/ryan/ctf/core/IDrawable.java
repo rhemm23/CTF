@@ -1,4 +1,4 @@
-package com.ryan.ctf.drawers;
+package com.ryan.ctf.core;
 
 /*
  * Represents an item that can be rendered

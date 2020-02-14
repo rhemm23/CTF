@@ -22,7 +22,6 @@ public class World {
 
   public World() {
     this(DEFAULT_WORLD_WIDTH, DEFAULT_WORLD_HEIGHT);
-
   }
 
   public World(int width, int height) {

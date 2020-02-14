@@ -2,6 +2,7 @@ package com.ryan.ctf.drawers;
 
 import android.opengl.GLES30;
 
+import com.ryan.ctf.core.IDrawable;
 import com.ryan.ctf.graphics.ColoredVerticesProgram;
 import com.ryan.ctf.math.Color4;
 

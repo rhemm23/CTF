@@ -9,7 +9,6 @@ import com.ryan.ctf.blocks.Rock;
 import com.ryan.ctf.blocks.Wood;
 import com.ryan.ctf.drawers.WorldDrawer;
 import com.ryan.ctf.graphics.Programs;
-import com.ryan.ctf.drawers.TextureDrawer;
 import com.ryan.ctf.graphics.Textures;
 import com.ryan.ctf.math.Rectanglei;
 
@@ -67,7 +66,7 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
     this._world.setBlock(7, 3, new Rock(7, 3));
 
     this._player.setY(5);
-    //this._player.setXVelocity(2);
+    this._player.setXVelocity(2);
     _renderBounds = new Rectanglei(0, 0, 10, 10);
     this._worldDrawer = new WorldDrawer(_world, _renderBounds);
     this._camera.setPosition(_player.getX(), _player.getY());
@@ -105,6 +104,6 @@ public class ScreenRenderer implements GLSurfaceView.Renderer {
 
   public void onSurfaceChanged(GL10 unused, int width, int height) {
     this._camera.setViewport(width, height);
-    this._camera.setZoom(2);
+    this._camera.setZoom(5);
   }
 }

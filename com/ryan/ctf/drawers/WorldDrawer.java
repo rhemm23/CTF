@@ -1,6 +1,7 @@
 package com.ryan.ctf.drawers;
 
 import com.ryan.ctf.World;
+import com.ryan.ctf.core.IDrawable;
 import com.ryan.ctf.math.Rectanglei;
 
 /*

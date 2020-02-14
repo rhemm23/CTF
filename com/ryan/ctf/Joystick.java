@@ -1,7 +1,7 @@
 package com.ryan.ctf;
 
 import com.ryan.ctf.drawers.CircleDrawer;
-import com.ryan.ctf.drawers.IDrawable;
+import com.ryan.ctf.core.IDrawable;
 import com.ryan.ctf.math.Color4;
 
 public class Joystick implements IDrawable {
