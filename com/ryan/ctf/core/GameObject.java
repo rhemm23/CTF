@@ -117,7 +117,7 @@ public abstract class GameObject implements IDrawable {
   /*
    * Draw the object to the screen
    */
-  public void draw(float[] viewProjectionMatrix, Rectanglef viewBounds) {
+  public void draw(float[] viewProjectionMatrix) {
     this._shaderProgram.use();
     this._shaderProgram.setPositionPointer(this._positionBuffer);
     this._shaderProgram.setTextureCoordinatePointer(textureCoordinateBuffer);

@@ -11,7 +11,6 @@ public interface IDrawable {
    * Draws the current object
    *
    * @param viewProjectionMatrix is the current view projection matrix
-   * @param viewBounds is the bounds of the frame in the 2D space
    */
-  void draw(float[] viewProjectionMatrix, Rectanglef viewBounds);
+  void draw(float[] viewProjectionMatrix);
 }

@@ -1,7 +1,5 @@
 package com.ryan.ctf.core;
 
-import com.ryan.ctf.math.Rectanglef;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -113,11 +111,11 @@ public class World implements IDrawable {
     }
   }
 
-  public void draw(float[] viewProjectionMatrix, Rectanglef viewBounds) {
-    HashSet<GameObject> visibleObjects =
+  public void draw(float[] viewProjectionMatrix) {
+    /*HashSet<GameObject> visibleObjects =
         this._worldSpace.getGameObjectsWithinBounds(viewBounds);
     for(GameObject obj : visibleObjects) {
       obj.draw(viewProjectionMatrix, viewBounds);
-    }
+    }*/
   }
 }

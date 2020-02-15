@@ -108,7 +108,7 @@ public class CircleDrawer implements IDrawable {
   /*
    * Draws the circle to the screen
    */
-  public void draw(float[] vpMatrix, Rectanglef viewBounds) {
+  public void draw(float[] vpMatrix) {
     // Use colored vertices program
     this._program.use();
 
